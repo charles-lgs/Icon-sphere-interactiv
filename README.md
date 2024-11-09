@@ -1,4 +1,4 @@
-# Interactiv icons
+# Interactiv Icon Orbit
 
 ![Sreenshot](/src/screenshot/icon-sphere.png)
 
