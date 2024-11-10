@@ -68,18 +68,39 @@ interface IconSphereProps {
     index: number;
 }
 
+const createGradientTexture = () => {
+  const size = 128; // Taille de la texture
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext('2d');
+
+  // Create gradient
+  const gradient = context!.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, 'rgba(255, 255, 255, 1)'); // Couleur blanche au centre
+  gradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Transparent à l'extérieur
+
+  context!.fillStyle = gradient;
+  context!.fillRect(0, 0, size, size);
+
+  return new THREE.CanvasTexture(canvas);
+};
+
 const IconSphere: React.FC<IconSphereProps> = ({ initialPosition, IconComponent, index }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const offset = useMemo(() => Math.random() * 1000, []);
+
+  // Créer la texture du dégradé
+  const gradientTexture = useMemo(() => createGradientTexture(), []);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
 
     if (meshRef.current) {
         // Generate smooth random movement using simplex noise
-        const noiseX = noise3D(time * 0.5 + offset, 0, 0) * 0.5;
-        const noiseY = noise3D(0, time * 0.5 + offset, 0) * 0.5;
-        const noiseZ = noise3D(0, 0, time * 0.5 + offset) * 0.5;
+        const noiseX = noise3D(time * 0.5 + offset, 0, 0) * 0.1;
+        const noiseY = noise3D(0, time * 0.5 + offset, 0) * 0.1;
+        const noiseZ = noise3D(0, 0, time * 0.5 + offset) * 0.1;
     
         // Update position
         meshRef.current.position.x = initialPosition.x + noiseX
@@ -96,8 +117,8 @@ const IconSphere: React.FC<IconSphereProps> = ({ initialPosition, IconComponent,
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[0.6, 32, 32]} />
-      <meshBasicMaterial transparent opacity={0.2} color="#ffffff" />
+      <sphereGeometry args={[0.6, 30, 30]} />
+      <meshBasicMaterial transparent opacity={0.1} map={gradientTexture} />
       <Html transform scale={0.2} position={[0, 0, 0]}>
         <div className="icon">
           <IconComponent />
