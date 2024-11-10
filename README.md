@@ -2,8 +2,7 @@
 
 ![Sreenshot](/src/screenshot/icon-sphere.png)
 
-![Vidéo](/src/screenshot/clip.mp4)
-[Télécharger la vidéo](/src/screenshot/clip.mp4)
+[![Aperçu de la vidéo](https://img.youtube.com/vi/rQzcMXpkYIw/0.jpg)](https://www.youtube.com/watch?v=rQzcMXpkYIw)
 
 ### Description
 
